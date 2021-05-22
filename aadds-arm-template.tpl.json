@@ -1,33 +1,39 @@
 {
-  "name": "${domainName}",
-  "type": "Microsoft.AAD/domainServices",
-  "apiVersion": "2021-03-01",
-  "location": "${location}",
-  "tags": ${tags},
-  "properties": {
-    "domainName": "${domainName}",
-    "replicaSets": [
-      {
-        "location": "${location}",
-        "subnetId": "${subnetId}"
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "resources": [
+    {
+      "name": "${domainName}",
+      "type": "Microsoft.AAD/domainServices",
+      "apiVersion": "2021-03-01",
+      "location": "${location}",
+      "tags": ${tags},
+      "properties": {
+        "domainName": "${domainName}",
+        "replicaSets": [
+          {
+            "location": "${location}",
+            "subnetId": "${subnetId}"
+          }
+        ],
+        "domainSecuritySettings": {
+          "ntlmV1": "${ntlmV1}",
+          "tlsV1": "${tlsV1}",
+          "syncNtlmPasswords": "${syncNtlmPasswords}",
+          "syncKerberosPasswords": "${syncKerberosPasswords}",
+          "syncOnPremPasswords": "${syncOnPremPasswords}",
+          "kerberosRc4Encryption": "${kerberosRc4Encryption}",
+          "kerberosArmoring": "${kerberosArmoring}"
+        },
+        "domainConfigurationType": "${domainConfigurationType}",
+        "sku": "${sku}",
+        "filteredSync": "${filteredSync}",
+        "notificationSettings": {
+          "notifyGlobalAdmins": "${notifyGlobalAdmins}",
+          "notifyDcAdmins": "${notifyDcAdmins}",
+          "additionalRecipients": ${additionalRecipients}
+        }
       }
-    ],
-    "domainSecuritySettings": {
-      "ntlmV1": "${ntlmV1}",
-      "tlsV1": "${tlsV1}",
-      "syncNtlmPasswords": "${syncNtlmPasswords}",
-      "syncKerberosPasswords": "${syncKerberosPasswords}",
-      "syncOnPremPasswords": "${syncOnPremPasswords}",
-      "kerberosRc4Encryption": "${kerberosRc4Encryption}",
-      "kerberosArmoring": "${kerberosArmoring}"
-    },
-    "domainConfigurationType": "${domainConfigurationType}",
-    "sku": "${sku}",
-    "filteredSync": "${filteredSync}",
-    "notificationSettings": {
-      "notifyGlobalAdmins": "${notifyGlobalAdmins}",
-      "notifyDcAdmins": "${notifyDcAdmins}",
-      "additionalRecipients": ${additionalRecipients}
     }
-  }
+  ]
 }

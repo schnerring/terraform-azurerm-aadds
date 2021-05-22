@@ -121,4 +121,6 @@ resource "azurerm_resource_group_template_deployment" "aadds" {
       "tags" = jsonencode(var.tags)
     }
   )
+
+  depends_on = [azurerm_resource_provider_registration.aadds]
 }
