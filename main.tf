@@ -39,6 +39,7 @@ resource "azurerm_resource_group" "aadds" {
   count    = !var.use_existing_resource_group ? 1 : 0
   name     = var.resource_group_name
   location = var.location
+  tags     = var.tags
 }
 
 # See https://docs.microsoft.com/en-us/azure/active-directory-domain-services/alert-nsg#inbound-security-rules
@@ -83,7 +84,9 @@ resource "azurerm_subnet_network_security_group_association" "aadds" {
 resource "azurerm_resource_group_template_deployment" "aadds" {
   name                = "aadds-deploy"
   resource_group_name = var.resource_group_name
-  deployment_mode     = "Incremental"
+  tags                = var.tags
+
+  deployment_mode = "Incremental"
 
   template_content = templatefile(
     "${path.module}/aadds-arm-template.tpl.json",
