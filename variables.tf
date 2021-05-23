@@ -1,24 +1,18 @@
 variable "resource_group_name" {
   type        = string
-  description = "Resource group name that AADDS is deployed to."
-}
-
-variable "use_existing_resource_group" {
-  type        = bool
-  description = "Use pre-provisioned resource group instead of creating one."
-  default     = false
+  description = "Name of the pre-provisioned resource group AADDS resources are deployed to."
 }
 
 # Basics
 
 variable "domain_name" {
   type        = string
-  description = "Managed domain name."
+  description = "The name of the managed domain."
 }
 
 variable "location" {
   type        = string
-  description = "Resource location."
+  description = "The Azure Region where AADDS resources should be created."
 }
 
 variable "sku" {
@@ -27,8 +21,8 @@ variable "sku" {
   default     = "Enterprise"
 
   validation {
-    condition     = var.sku == "Standard" || var.sku == "Enterprise" || var.sku == "Premium"
-    error_message = "The sku value must be Standard, Enterprise or Premium."
+    condition     = contains(["Standard", "Enterprise", "Premium"], var.sku)
+    error_message = "Valid values for sku are: (Standard, Enterprise, Premium)."
   }
 }
 
@@ -38,8 +32,8 @@ variable "domain_configuration_type" {
   default     = "FullySynced"
 
   validation {
-    condition     = var.domain_configuration_type == "FullySynced" || var.domain_configuration_type == "ResourceTrusting"
-    error_message = "The domain_configuration_type value must be FullySynced or ResourceTrusting."
+    condition     = contains(["FullySynced", "ResourceTrusting"], var.domain_configuration_type)
+    error_message = "Valid values for domain_configuration_type are: (FullySynced, ResourceTrusting)."
   }
 }
 
@@ -47,7 +41,7 @@ variable "domain_configuration_type" {
 
 variable "subnet_id" {
   type        = string
-  description = "The ID of the subnet that AADDS is deployed to."
+  description = "The ID of the pre-provisioned subnet that AADDS is deployed to."
 }
 
 # Administration
@@ -88,7 +82,7 @@ variable "filtered_sync" {
 
 variable "tls_1_2_only_mode" {
   type        = bool
-  description = "Enable TLS 1.2 only mode."
+  description = "Enable TLS 1.2-only mode."
   default     = false
 }
 
@@ -133,6 +127,6 @@ variable "kerberos_armoring" {
 
 variable "tags" {
   type        = map(string)
-  description = "Resource tags."
+  description = "A mapping of tags to be assigned to AADDS resources."
   default     = {}
 }

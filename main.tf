@@ -14,6 +14,8 @@ terraform {
   }
 }
 
+# Resource Group
+
 # Register the Azure Active Directory Application Service Principal
 # https://github.com/Azure/azure-quickstart-templates/tree/master/101-AAD-DomainServices#3-register-the-azure-active-directory-application-service-principal
 resource "azuread_service_principal" "aadds" {
@@ -33,13 +35,6 @@ resource "azuread_group" "aadds" {
 # https://github.com/Azure/azure-quickstart-templates/tree/master/101-AAD-DomainServices#5-register-resource-provider
 resource "azurerm_resource_provider_registration" "aadds" {
   name = "Microsoft.AAD"
-}
-
-resource "azurerm_resource_group" "aadds" {
-  count    = !var.use_existing_resource_group ? 1 : 0
-  name     = var.resource_group_name
-  location = var.location
-  tags     = var.tags
 }
 
 # See https://docs.microsoft.com/en-us/azure/active-directory-domain-services/alert-nsg#inbound-security-rules
