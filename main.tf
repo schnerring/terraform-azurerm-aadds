@@ -14,8 +14,6 @@ terraform {
   }
 }
 
-# Resource Group
-
 # Register the Azure Active Directory Application Service Principal
 # https://github.com/Azure/azure-quickstart-templates/tree/master/101-AAD-DomainServices#3-register-the-azure-active-directory-application-service-principal
 resource "azuread_service_principal" "aadds" {
@@ -67,8 +65,6 @@ resource "azurerm_network_security_group" "aadds" {
     destination_address_prefix = "*"
     destination_port_range     = "5986"
   }
-
-  depends_on = [azurerm_resource_group.aadds]
 }
 
 resource "azurerm_subnet_network_security_group_association" "aadds" {
@@ -76,6 +72,8 @@ resource "azurerm_subnet_network_security_group_association" "aadds" {
   network_security_group_id = azurerm_network_security_group.aadds.id
 }
 
+# Microsoft.AAD domainServices 2021-03-01
+# https://docs.microsoft.com/en-us/azure/templates/microsoft.aad/2021-03-01/domainservices
 resource "azurerm_resource_group_template_deployment" "aadds" {
   name                = "aadds-deploy"
   resource_group_name = var.resource_group_name

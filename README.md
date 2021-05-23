@@ -6,8 +6,46 @@ This module uses version `2021-03-01` of the [`Microsoft.AAD/domainServices`](ht
 
 ## Important Notes
 
-- To support a wide variety of deployment scenarios, a resource group, virtual network and subnet must be pre-provisioned and provided to the module.
+- To support a wide variety of deployment scenarios, a resource group, virtual network, and subnet must be pre-provisioned and provided to the module.
   - AADDS requires the chosen subnet to belong to a reserved private IP range: `192.168.0.0/16`, `172.16.0.0/12`, `10.0.0.0/8`
 - An active Azure subscription with an Azure Active Directory (AAD) tenant is required
-- Only **one AADDS deployment per tenant** is supported.0/8`
+- Only **one AADDS deployment per tenant** is supported.
 - Deployment takes around **40-45 minutes** to complete
+
+## Minimal Example
+
+```hcl
+resource "azurerm_resource_group" "aadds" {
+  name     = "aadds-rg"
+  location = "Switzerland North"
+}
+
+resource "azurerm_virtual_network" "aadds" {
+  name                = "aadds-vnet"
+  resource_group_name = azurerm_resource_group.aadds.name
+  location            = "Switzerland North"
+
+  address_space = ["10.0.0.0/16"]
+
+  # AADDS DCs
+  dns_servers = ["10.0.0.4", "10.0.0.5"]
+}
+
+resource "azurerm_subnet" "aadds" {
+  name                 = "aadds-snet"
+  resource_group_name  = azurerm_resource_group.aadds.name
+  virtual_network_name = azurerm_virtual_network.aadds.name
+
+  address_prefixes = ["10.0.0.0/24"]
+}
+
+module "aadds" {
+  source  = "schnerring/aadds/azurerm"
+  version = "0.1.1"
+
+  resource_group_name = azurerm_resource_group.aadds.name
+  location            = "Switzerland North"
+  domain_name         = "aadds.schnerring.net"
+  subnet_id           = azurerm_subnet.aadds.id
+}
+```
