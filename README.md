@@ -1,8 +1,10 @@
 # Azure Active Directory Domain Services (AADDS) Module
 
-Terraform module to deploy Azure Active Directory Domain Services (AADDS), providing the same configuration options as the AADDS configuration wizard in the Azure Portal.
+Terraform module for deploying Azure Active Directory Domain Services (AADDS), providing the same configuration options as the AADDS configuration wizard in the Azure Portal.
 
-Version `2021-03-01` of the [`Microsoft.AAD/domainServices`](https://docs.microsoft.com/en-us/azure/templates/microsoft.aad/2021-03-01/domainservices) ARM template is used to deploy AADDS. Besides the important notes below, more information regarding setup requirements is available [in the official Azure GitHub](https://github.com/Azure/azure-quickstart-templates/tree/master/101-AAD-DomainServices).
+It uses version `2021-03-01` of the [`Microsoft.AAD/domainServices`](https://docs.microsoft.com/en-us/azure/templates/microsoft.aad/2021-03-01/domainservices) ARM template to deploy AADDS. Besides the notes below, more information regarding setup requirements is available [in the official Azure GitHub](https://github.com/Azure/azure-quickstart-templates/tree/master/101-AAD-DomainServices).
+
+[You can read about the thoughts going into the implementation of this module on my blog](https://schnerring.net/posts/set-up-azure-active-directory-domain-services-aadds-with-terraform/).
 
 ## Important Notes
 
