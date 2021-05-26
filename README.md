@@ -43,7 +43,7 @@ resource "azurerm_subnet" "aadds" {
 
 module "aadds" {
   source  = "schnerring/aadds/azurerm"
-  version = "0.1.1"
+  version = "0.1.2"
 
   resource_group_name = azurerm_resource_group.aadds.name
   location            = "Switzerland North"
